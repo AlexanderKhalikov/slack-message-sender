@@ -1,0 +1,36 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  creationTimestamp: null
+  name: slack-sender
+spec:
+  jobTemplate:
+    metadata:
+      creationTimestamp: null
+      name: slack-sender
+    spec:
+      template:
+        metadata:
+          creationTimestamp: null
+        spec:
+          containers:
+          - image: sashakhalikov/python-slack-sender:channel_sender_v1
+            name: slack-sender
+            imagePullPolicy: Always
+            resources: {}
+            env:
+            - name: TZ
+              value: Europe/Moscow
+            - name: channel-name
+              valueFrom:
+                secretKeyRef:
+                  name: slack-secret
+                  key: channel-name
+            - name: slack-url
+              valueFrom:
+                secretKeyRef:
+                  name: slack-secret
+                  key: slack-url
+          restartPolicy: OnFailure
+  schedule: '10 4 * * 1-5'
+status: {}
