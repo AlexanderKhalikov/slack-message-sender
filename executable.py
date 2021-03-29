@@ -24,7 +24,7 @@ slack_data = {
     ,'channel': channel
 }
 
-sleep(random.randint(5, 18) * minutes)
+sleep(random.randint(5, 19) * minutes)
 
 response = requests.post(
     webhook_url, data=json.dumps(slack_data),
